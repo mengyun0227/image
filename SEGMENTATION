@@ -1,0 +1,45 @@
+%動差守恆式的門檻值決定法
+pkg load image;
+
+Lena_gray = rgb2gray(imread('lena_std.tif'));
+
+% 計算一階動差的 moment
+[Gx, Gy] = imgradientxy(Lena_gray, 'sobel');
+M1 = sqrt(Gx.^2 + Gy.^2);
+
+% 計算 Laplacian
+L = imfilter(Lena_gray, fspecial('laplacian'));
+
+% 計算二階動差的 moment
+M2 = sqrt(imfilter(L.^2, fspecial('average')));
+
+% 計算一階動差和二階動差的平均值和標準差
+mean_M1 = mean(M1(:));
+mean_M2 = mean(M2(:));
+std_M1 = std(M1(:));
+std_M2 = std(M2(:));
+
+% 根據平均值和標準差計算門檻值
+threshold1 = mean_M1 + std_M1;
+threshold2 = mean_M2 + std_M2;
+
+% 分割成三個部份
+binaryImage1 = (M1 <= threshold1) & (M2 <= threshold1);
+binaryImage2 = (M1 > threshold1) & (M1 <= threshold2) & (M2 <= threshold2);
+binaryImage3 = (M1 > threshold2) & (M2 > threshold2);
+
+subplot(2,2,1);
+imshow(Lena_gray);
+title('Original');
+
+subplot(2,2,2);
+imshow(binaryImage1);
+title('SEG1');
+
+subplot(2,2,3);
+imshow(binaryImage2);
+title('SEG2');
+
+subplot(2,2,4);
+imshow(binaryImage3);
+title('SEG3');

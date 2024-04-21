@@ -1,0 +1,54 @@
+clear all; clc;
+pkg load image signal;
+lena=imread('lena_std.tif');
+lena_gray=rgb2gray(lena);
+KMU_logo=imread('KMU_logo300dpi.jpg');
+KMU=rgb2gray(KMU_logo);
+%A = [1 2 3 4; 5 6 7 8; 9 10 11 12; 13 14 15 16];
+%A1 = [A(1:2, 1:2)]; %A2 = [A(1:2, 3:4)];
+%A3 = [A(3:4, 1:2)]; %A4 = [A(3:4, 3:4)];
+DCT_Lena = dct2(lena_gray);
+DCT_Lena1=[DCT_Lena(1:256,1:256)];
+DCT_Lena2=[DCT_Lena(1:256,257:512)];
+DCT_Lena3=[DCT_Lena(257:512,1:256)];
+DCT_Lena4=[DCT_Lena(257:512,257:512)];
+DCT_LenaR = [DCT_Lena1 DCT_Lena2;DCT_Lena3 DCT_Lena4];
+DCT_LenaR1 = [zeros(256:256) DCT_Lena2;DCT_Lena3 DCT_Lena4];
+DCT_LenaR2 = [DCT_Lena1 zeros(256:256);DCT_Lena3 DCT_Lena4];
+DCT_LenaR3 = [DCT_Lena1 DCT_Lena2;zeros(256:256) DCT_Lena4];
+DCT_LenaR4 = [DCT_Lena1 DCT_Lena2;DCT_Lena3 zeros(256:256)];
+dd=DCT_Lena-DCT_LenaR;
+
+LenaR = idct2(DCT_LenaR);
+LenaR1 = idct2(DCT_LenaR1);
+LenaR2 = idct2(DCT_LenaR2);
+LenaR3 = idct2(DCT_LenaR3);
+LenaR4 = idct2(DCT_LenaR4);
+
+subplot(2,3,1); imshow(lena_gray);
+subplot(2,3,2); imshow(DCT_Lena);
+subplot(2,3,3); imshow(uint8(LenaR1));
+subplot(2,3,4); imshow(uint8(LenaR2));
+subplot(2,3,5); imshow(uint8(LenaR3));
+subplot(2,3,6); imshow(uint8(LenaR4));
+%---Embedded watermark--------------------------
+figure;
+subplot(121); imshow(uint8(LenaR));
+DCT_LenaR(1:256,1:256) = KMU;
+LenaR5 = idct2(DCT_LenaR);
+subplot(122); imshow(uint8(LenaR5));
+
+%---Extract watermark--------------------------
+DCT_LenaRR= dct2(LenaR5);
+KMU_R = DCT_LenaRR(1:256,1:256);
+figure; imshow(uint8(KMU_R));
+%{
+---------------------------------------
+[LL, LH, HL, HH] = dwt2(lena_gray,'db1');
+subplot(2,2,1);imshow(uint8(LL));title('LL');
+subplot(2,2,2);imshow(uint8(LH));title('LH');
+subplot(2,2,3);imshow(uint8(HL));title('HL');
+subplot(2,2,4);imshow(uint8(HH));title('HH');
+lena=idwt2(LL, LH, HL, HH, 'db1');
+figure(2); imshow(uint8(lena));
+%}

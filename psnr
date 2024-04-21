@@ -1,0 +1,10 @@
+function[PSNR]=psnr(img1,img2)
+%p=psnr(A,B)
+%
+%A is the original image
+%B is the atack image
+[row,col]=size(img1);
+img3=(double(img1)-double(img2)).^2;
+mse=sum(sum(img3))/row/col;
+PSNR=10*log10((255^2)/mse);
+end

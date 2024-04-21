@@ -1,0 +1,23 @@
+x = 1:100;
+A = (1-cos(2*pi*0.01*x)).*sin(2*pi*0.15*x);
+plot(A)
+
+%找出最高最低點
+==========================================================================
+x = 1:100;
+A = (1 - cos(2 * pi * 0.01 * x)) .* sin(2 * pi * 0.15 * x);
+plot(A);
+
+% 找到最高點和最低點
+[max_val, max_idx] = max(A);
+[min_val, min_idx] = min(A);
+
+% 在圖上標註最高點和最低點
+hold on;
+plot(max_idx, max_val, 'ro', 'MarkerSize', 10); % 最高點
+plot(min_idx, min_val, 'go', 'MarkerSize', 10); % 最低點
+hold off;
+
+% 顯示最高點和最低點的索引和值
+disp(['最高點索引: ', num2str(max_idx), ', 最高點值: ', num2str(max_val)]);
+disp(['最低點索引: ', num2str(min_idx), ', 最低點值: ', num2str(min_val)]);

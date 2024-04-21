@@ -1,0 +1,136 @@
+% 定義門檻值
+threshold = 4;
+
+% 定義點的坐標
+points = [2, 4; 2, 8; 4, 3; 4, 6; 5, 5; 7, 3; 10, 0; 10, 5];
+
+% 初始化累積陣列
+accumulator = [];
+
+% 計算霍夫轉換
+for i = 1:size(points, 1)
+    x = points(i, 1);
+    y = points(i, 2);
+    m = tand(45);  % 45°角度的斜率
+    c = y - m * x;  % 截距
+    rho = c / sqrt(1 + m^2);  % 計算 rho
+    found = false;
+    if isempty(accumulator)
+        accumulator = [rho, 1];
+    else
+        for j = 1:size(accumulator, 1)
+            if abs(accumulator(j, 1) - rho) < 1e-5
+                accumulator(j, 2) = accumulator(j, 2) + 1;
+                found = true;
+                break;
+            end
+        end
+        if ~found
+            accumulator = [accumulator; rho, 1];
+        end
+    end
+end
+
+% 找到超過門檻的直線參數
+lines = [];
+for i = 1:size(accumulator, 1)
+    if accumulator(i, 2) >= threshold
+        lines = [lines; accumulator(i, 1), 45];
+    end
+end
+
+% 輸出滿足條件的直線參數
+disp("法距(𝛾)及法角(𝜃)：");
+for i = 1:size(lines, 1)
+    disp(["法距:", num2str(lines(i, 1)), "法角:", num2str(lines(i, 2))]);
+end
+
+% 將直線參數轉換回坐標空間
+disp("\n連成直線的點：");
+for i = 1:size(lines, 1)
+    rho = lines(i, 1);
+    theta = lines(i, 2);
+    m = tand(theta);
+    c = rho * sqrt(2);
+    disp(["直線方程式: y = ", num2str(m), "x + ", num2str(c)]);
+    disp("連成直線的點：");
+    for j = 1:size(points, 1)
+        x = points(j, 1);
+        y = points(j, 2);
+        if abs(y - m * x - c) < 1e-5
+            disp(["(", num2str(x), ",", num2str(y), ")"]);
+        end
+    end
+end
+================================================================================
+% 定義門檻值
+threshold = 4;
+
+% 定義點的坐標
+points = [2, 4; 2, 8; 4, 3; 4, 6; 5, 5; 7, 3; 10, 0; 10, 5];
+
+% 初始化累積陣列
+accumulator = [];
+
+% 計算霍夫轉換
+for i = 1:size(points, 1)
+    x = points(i, 1);
+    y = points(i, 2);
+    m = tand(45);  % 45°角度的斜率
+    c = y - m * x;  % 截距
+    rho = c / sqrt(1 + m^2);  % 計算 rho
+    found = false;
+    if isempty(accumulator)
+        accumulator = [rho, 1];
+    else
+        for j = 1:size(accumulator, 1)
+            if abs(accumulator(j, 1) - rho) < 1e-5
+                accumulator(j, 2) = accumulator(j, 2) + 1;
+                found = true;
+                break;
+            end
+        end
+        if ~found
+            accumulator = [accumulator; rho, 1];
+        end
+    end
+end
+
+% 找到超過門檻的直線參數
+lines = [];
+for i = 1:size(accumulator, 1)
+    if accumulator(i, 2) >= threshold
+        lines = [lines; accumulator(i, 1), 45];
+    end
+end
+
+% 將直線參數轉換回坐標空間並列出連成直線的點
+disp("滿足條件的直線的法距(𝛾)及法角(𝜃)：");
+for i = 1:size(lines, 1)
+    disp(["法距:", num2str(lines(i, 1)), "法角:", num2str(lines(i, 2))]);
+end
+
+figure;
+hold on;
+
+% 繪製點
+scatter(points(:,1), points(:,2), 'filled');
+
+% 繪製直線
+for i = 1:size(lines, 1)
+    rho = lines(i, 1);
+    theta = lines(i, 2);
+    m = tand(theta);
+    c = rho * sqrt(2);
+    x_vals = linspace(0, 12, 100);
+    y_vals = m * x_vals + c;
+    plot(x_vals, y_vals, 'LineWidth', 2);
+end
+
+xlabel('X');
+ylabel('Y');
+title('滿足門檻條件的直線及點');
+legend('點', '直線');
+
+hold off;
+

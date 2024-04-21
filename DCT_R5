@@ -3,7 +3,7 @@ pkg load image signal;
 lena=imread('lena_std.tif');
 lena_gray=rgb2gray(lena);
 KMU_logo=imread('KMU_logo300dpi.jpg');
-KMU=rgb2gray(KMU_logo);
+KMU=rgb2gray(imresize(KMU_logo, [256, 256]));
 %A = [1 2 3 4; 5 6 7 8; 9 10 11 12; 13 14 15 16];
 %A1 = [A(1:2, 1:2)]; %A2 = [A(1:2, 3:4)];
 %A3 = [A(3:4, 1:2)]; %A4 = [A(3:4, 3:4)];

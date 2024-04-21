@@ -1,0 +1,43 @@
+clc; clear all;
+Lena=imread("lena_std.tif");
+Lena_R=Lena(:,:,1);Lena_G=Lena(:,:,2);Lena_B=Lena(:,:,3);
+empty=zeros(512:512);
+Lena_g=0.299*Lena_R+0.587*Lena_G+0.114*Lena_B;
+Lena_gray=rgb2gray(Lena);
+%{
+subplot(2,3,1);imshow(Lena);
+subplot(2,3,2);imshow(Lena_R);
+subplot(2,3,3);imshow(Lena_G);
+subplot(2,3,4);imshow(Lena_B);
+subplot(2,3,5);imshow(Lena_g);
+subplot(2,3,6);imshow(Lena_gray);
+gg_diff=Lena_g-Lena_gray;
+%}
+%這是註解RGB三色圖
+%{
+% Check the size of Lena and its components
+disp(size(Lena));
+disp(size(Lena_R));
+disp(size(Lena_G));
+disp(size(Lena_B));
+
+% Create matrices for storing separated channels
+Lena_ro = zeros(size(Lena), 'uint8');
+Lena_ro(:,:,1) = Lena_R;
+Lena_go = zeros(size(Lena), 'uint8');
+Lena_go(:,:,2) = Lena_G;
+Lena_bo = zeros(size(Lena), 'uint8');
+Lena_bo(:,:,3) = Lena_B;
+
+% Display the images
+figure;
+subplot(2,2,1); imshow(Lena);
+subplot(2,2,2); imshow(Lena_ro);
+subplot(2,2,3); imshow(Lena_go);
+subplot(2,2,4); imshow(Lena_bo); % Debugging completed
+
+%}
+%Lena bit圖
+Lena_1=bitget(Lena_g,1);
+figure;
+subplot(2,4,1);imshow(Lena_1);

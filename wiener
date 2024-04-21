@@ -1,0 +1,17 @@
+%利用中值法和偉恩法去去雜質
+clc;clear all;
+pkg load image signal;
+Lena_gray=rgb2gray(imread("lena_std.tif"));
+Lena_sp=imnoise(Lena_gray,'salt & pepper',0.02); %加鹽和胡椒
+subplot(2,2,1);imshow(Lena_gray);
+subplot(2,2,2);imshow(Lena_sp);
+
+Lena_wiener=wiener2(Lena_sp,[7 7]); %偉恩
+Lena_med=medfilt2(Lena_sp,[3 3]);   %中值法
+subplot(2,2,3);imshow(Lena_wiener);
+subplot(2,2,4);imshow(Lena_med);
+
+%看圖片顏色分布
+imhist(Lena_gray);
+histeq %拉開圖片 %作用為何?
+Lena_test = histeq(Lena_gray);

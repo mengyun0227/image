@@ -1,0 +1,40 @@
+%請將KMU_logo.jpg並改為128*128黑白圖, 藏到灰階Lena空間域的次低位元左下角，並組回來計算與Lena原圖之 PSNR 值. 最後，再把 KMU_logo 從灰階 Lena 圖中取出
+% 讀取 Lena 圖片和 KMU_logo 圖片
+lena = imread('lena_std.tif');
+lena_gray = rgb2gray(lena);
+KMU_logo = imread('KMU_logo300dpi.jpg');
+
+% 轉換 KMU_logo 圖片為黑白圖片
+KMU_logo_bw = rgb2gray(KMU_logo);
+% 調整 KMU_logo 圖片大小為 128x128
+pkg load image % 載入 image 套件
+KMU_logo_resized = imresize(KMU_logo_bw, [size(lena_gray, 1) size(lena_gray, 2)]);
+
+% 將 Lena 圖片轉換為雙精度數組
+lena_double = double(lena_gray);
+
+% 藏入 KMU_logo 圖片到 Lena 圖片的次低位元左下角
+watermarked_image = bitand(lena_double, 254) + bitshift(KMU_logo_resized, -1);
+
+% 計算 PSNR 值
+psnr_value = psnr(double(lena_gray), watermarked_image);
+
+% 顯示原始 Lena 圖片和嵌入水印後的圖片
+figure;
+subplot(1, 2, 1);
+imshow(uint8(lena_gray));
+title('原始 Lena 圖片');
+subplot(1, 2, 2);
+imshow(uint8(watermarked_image));
+title('嵌入水印後的 Lena 圖片');
+
+% 顯示 PSNR 值
+disp(['Lena 圖片和嵌入水印後的圖片之間的 PSNR 值為：', num2str(psnr_value)]);
+
+% 從嵌入水印後的圖片中提取 KMU_logo 圖片
+KMU_extracted = bitshift(bitand(watermarked_image, 1), 7);
+
+% 顯示提取的 KMU_logo 圖片
+figure;
+imshow(uint8(KMU_extracted));
+title('提取的 KMU_logo 圖片');

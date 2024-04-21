@@ -1,0 +1,14 @@
+% 讀取 Lena_sp.tif 圖像
+lena_sp = imread('Lena_sp.tif');
+
+% 將圖像應用中值濾波器
+lena_sp_filtered = medfilt2(lena_sp);
+
+% 顯示原始圖像和應用中值濾波器後的圖像
+figure;
+subplot(1, 2, 1);
+imshow(lena_sp);
+title('原始圖像');
+subplot(1, 2, 2);
+imshow(lena_sp_filtered);
+title('應用中值濾波器後的圖像');

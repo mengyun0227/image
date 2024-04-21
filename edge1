@@ -1,0 +1,27 @@
+clear all；
+clc;
+%A=int8 ([15 39 42 27 12;    12 21 48 15 9;
+%            9 21 27 12 3;    18 15 33 18 18;
+%            45 60 57 24 21]);
+lena=imread('lena_std.tif');
+A=rgb2gray(lena);
+subplot(2,2,1); imshow(A),title('lena');
+matrix_size=size(A,1);
+edge_1 = uint8(ones(matrix_size)*255);
+prewitt_x=int8([-1 0 1;-1 0 1;-1 0 1]);
+prewitt_y=int8([-1 -1 -1;0 0 0;1 1 1]);
+for i = 2:size(A,1)-1 % size (A,1) column, [m,n] = size(A)
+    for j = 2:size(A,2)-1
+        temp_y=sum(sum(int8(A(i-1:i+1,j-1:j+1)).*prewitt_y));
+        temp_x=sum(sum(int8(A(i-1:i+1,j-1:j+1)).*prewitt_x));
+        temp=abs(temp_x)+abs(temp_y);
+        if temp > 60
+            edge_1(i, j)=0;
+        end %if
+    end
+end
+subplot(2,2,2); imshow(edge_1),title('prewitt');
+edge_2=edge(A, "sobel");
+subplot(2,2,3); imshow(edge_2),title('sobel');
+edge_3=edge(A, "Canny");
+subplot(2,2,4); imshow(edge_3),title('Canny');

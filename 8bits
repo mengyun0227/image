@@ -1,0 +1,58 @@
+%將第一個平面替換為kmu logo的黑白圖(第一個figure)
+kmu_logo = imread("KMU_logo300dpi.jpg");
+lena = imread("lena_std.tif");
+
+kmu_logo_gray = rgb2gray(kmu_logo);
+if size(lena, 3) == 3
+    lena = rgb2gray(lena);
+end
+
+lena_binary = imbinarize(lena);
+kmu_logo_binary = imbinarize(kmu_logo_gray);
+
+eight_bit_planes4 = zeros(size(lena_binary, 1), size(lena_binary, 2), 8);
+
+for i = 1:7
+    eight_bit_planes4(:,:,i) = bitget(lena, i);
+end
+
+figure;
+
+for i = 1:8
+    subplot(2, 4, i);
+    if i == 8
+        imshow(kmu_logo_gray, [100, 200]);
+    else
+        imshow(eight_bit_planes4(:,:,i),[]);
+    end
+    title(['Bit Plane ' num2str(i)]);
+end
+
+%將八個平面結合起來成為一張灰階圖
+combined_image2 = sum(eight_bit_planes4, 3) ./ 8;
+
+% 顯示結合後的灰階圖(第二個figure)
+figure;
+imshow(combined_image2, []);
+title('Combined Image2');
+
+%與原始灰階圖的Lena比較PSNR
+% 計算 PSNR
+[row, col] = size(lena);
+img_diff = double(lena) - double(combined_image2);
+mse = sum(img_diff(:).^2) / (row * col);
+PSNR = 10 * log10((255^2) / mse);
+
+% 顯示 Lena 的灰階圖和組合圖像(第三個figure)
+figure;
+subplot(1, 2, 1);
+imshow(lena);
+title('Lena 灰階圖像');
+subplot(1, 2, 2);
+imshow(combined_image2);
+title('組合圖像');
+
+% 在figure 中顯示 PSNR 值
+annotation('textbox', [0.1, 0.8, 0.1, 0.1], 'String', ['PSNR: ', num2str(PSNR)], 'FitBoxToText', 'on');
+
+%用bitset去做合併

@@ -1,0 +1,36 @@
+% 讀取 KMU_logo.jpg 圖片，轉換為 128x128 的黑白圖片
+kmu_logo = imread('KMU_logo300dpi.jpg');
+kmu_logo_bw = rgb2gray(imresize(kmu_logo, [128 128]));
+
+% 讀取灰階 Lena 圖片
+lena = imread('lena_std.tif');
+lena = rgb2gray(lena);
+
+% 將 KMU_logo 圖片藏入 Lena 圖片的次低位元左下角
+lena_dct = dct2(double(lena));
+kmu_logo_dct = dct2(double(kmu_logo_bw));
+
+alpha = 0.1; % 調整參數，控制嵌入強度
+kmu_logo_dct_embedded = kmu_logo_dct + alpha * lena_dct(97:224, 1:128);
+
+% 進行反轉換
+lena_modified = lena;
+lena_modified(97:224, 1:128) = uint8(idct2(kmu_logo_dct_embedded));
+
+% 計算藏入後的圖片與原 Lena 圖片之 PSNR 值
+psnr_value = psnr(double(lena), double(lena_modified));
+
+% 從藏有 KMU_logo 的圖片中取出 KMU_logo
+extracted_logo_dct = idct2(kmu_logo_dct_embedded - lena_dct(97:224, 1:128));
+
+% 顯示 PSNR 值
+disp(['PSNR 值: ', num2str(psnr_value)]);
+
+% 顯示 PSNR 值和 KMU_logo
+figure;
+imshow(lena_modified);
+title(['PSNR: ', num2str(psnr_value)]);
+
+figure;
+imshow(uint8(extracted_logo_dct));
+title('KMU Logo');

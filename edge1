@@ -10,8 +10,22 @@ matrix_size=size(A,1);
 edge_1 = uint8(ones(matrix_size)*255);
 prewitt_x=int8([-1 0 1;-1 0 1;-1 0 1]);
 prewitt_y=int8([-1 -1 -1;0 0 0;1 1 1]);
+
+%Sobel_x_mask = [-1 0 1; -2 0 2; -1 0 1];
+%Sobel_y_mask = [-1 -2 -1; 0 0 0; 1 2 1];
+
 for i = 2:size(A,1)-1 % size (A,1) column, [m,n] = size(A)
     for j = 2:size(A,2)-1
+
+% 使用Sobel
+    %Gx_Sobel = sum(sum(Sobel_x_mask .* A(i:i+mask_m-1, j:j+mask_n-1)));
+    %Gy_Sobel = sum(sum(Sobel_y_mask .* A(i:i+mask_m-1, j:j+mask_n-1)));
+    %Sobel_point(i, j) = sqrt(Gx_Sobel^2 + Gy_Sobel^2);
+% 使用Prewitt
+    %Gx_Prewitt = sum(sum(Prewitt_x_mask .* A(i:i+mask_m-1, j:j+mask_n-1)));
+    %Gy_Prewitt = sum(sum(Prewitt_y_mask .* A(i:i+mask_m-1, j:j+mask_n-1)));
+    %Prewitt_point(i, j) = sqrt(Gx_Prewitt^2 + Gy_Prewitt^2);
+
         temp_y=sum(sum(int8(A(i-1:i+1,j-1:j+1)).*prewitt_y));
         temp_x=sum(sum(int8(A(i-1:i+1,j-1:j+1)).*prewitt_x));
         temp=abs(temp_x)+abs(temp_y);

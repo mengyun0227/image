@@ -598,3 +598,49 @@ for k = 1:length(lines)
 xy = [lines(k).point1; lines(k).point2];
 plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','red');
 end
+
+//SVM_SAMPLE
+pkg load statistics; % 加载 statistics 包
+
+% 生成二维数据
+num_samples = 100;
+X = [randn(num_samples, 2) * 0.5 + ones(num_samples, 2); 
+     randn(num_samples, 2) * 0.5 - ones(num_samples, 2)];
+Y = [ones(num_samples, 1); -ones(num_samples, 1)];
+
+% 显示生成的数据
+figure;
+gscatter(X(:,1), X(:,2), Y);
+title('生成的数据');
+xlabel('特征 1');
+ylabel('特征 2');
+legend('类 1', '类 -1');
+hold on;
+
+% 设置 SVM 参数
+C = 1; % 正则化参数
+kernel_function = 'linear'; % 核函数
+
+% 训练 SVM 模型
+model = svmtrain(X, Y, 'boxconstraint', C, 'kernel_function', kernel_function);
+
+% 显示支持向量
+plot(X(model.SupportVectorIndices, 1), X(model.SupportVectorIndices, 2), 'ko', 'MarkerSize', 10);
+hold off;
+
+% 生成测试数据
+test_samples = 20;
+X_test = [randn(test_samples, 2) * 0.5 + ones(test_samples, 2); 
+          randn(test_samples, 2) * 0.5 - ones(test_samples, 2)];
+Y_test = [ones(test_samples, 1); -ones(test_samples, 1)];
+
+% 使用 SVM 模型进行预测
+[predicted_labels, accuracy, prob_values] = svmpredict(model, X_test, Y_test);
+
+% 显示测试结果
+figure;
+gscatter(X_test(:,1), X_test(:,2), predicted_labels);
+title('测试数据');
+xlabel('特征 1');
+ylabel('特征 2');
+legend('预测类 1', '预测类 -1');

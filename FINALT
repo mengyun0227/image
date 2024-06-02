@@ -1,3 +1,29 @@
+//WRITEDEF
+//DISTANCE
+曼哈頓距離（Manhattan Distance）：計算兩點之間的水平和垂直距離的總和，也稱為城市街區距離或L1距離。
+切比雪夫距離（Chebyshev Distance）：是兩點之間各坐標差的絕對值的最大值，通常用於棋盤距離的計算，也稱為L∞距離。
+關聯距離（Hamming Distance）：用於比較兩個等長字串之間的差異，表示在相同位置上不相等的元素的數量。
+馬氏距離（Mahalanobis Distance）：用於測量一組觀察值之間的相似性，考慮了各種變量之間的相關性。
+明氏距離（Minkowski Distance）：是歐氏距離和曼哈頓距離的泛化，可以調整一個參數來控制距離的形狀。
+
+//DEF
+a. KNN（K-Nearest Neighbors）：是一種監督式學習算法，常用於分類和回歸問題。對於給定的一個未標記數據點，KNN算法會找到訓練集中與該點最接近的K個已標記數據點，並通過多數投票或加權平均來決定該點的類別或值。
+
+b. Watershed：是一種圖像分割算法，通常用於檢測和分離圖像中的不同對象或區域。它基於圖像中的強度梯度，將圖像像水域一樣分成不同的區域，每個區域代表一個對象或一個分割部分。
+
+c. RLD v.s. RHT：RLD代表隨機化霍夫變換（Randomized Hough Transform），RHT代表霍夫變換（Hough Transform）。這兩種技術都是用於檢測圖像中的幾何形狀，如直線、圓等。與傳統的霍夫變換相比，隨機化霍夫變換通常更快速，但可能會牺牲一些準確性。
+
+d. Hausdorff 距離：是用於衡量兩個非空集合之間的相似性的一種度量方法。它考慮到兩個集合中每個點到另一個集合中所有點的最小距離，然後取這些最小距離的最大值。
+
+e.PA# (Probabilistic Approximation Algorithm #)：PA# 可能代表一類概率近似算法，其中 "#" 可能表示不同版本或變體。概率近似算法通常用於處理大數據或高維數據，其核心思想是使用隨機化抽樣或近似方法來有效地解決複雜的計算問題。這些算法通常能夠提供對解答的概率保證或近似保證。
+
+PA ε (Probabilistic Approximation with ε)：PA ε 可能代表一種概率近似算法，其中的 "ε" 可能表示一定的近似誤差或容忍度。這類算法考慮了在解答中容許的誤差範圍或容忍度，通常在計算複雜度和解答精度之間取得平衡，從而提供了更有效的解決方案。
+
+這些概念可能在模式識別、機器學習或數據分析等領域中使用
+
+f.支援向量機（SVM）是一種監督式機器學習模型，用於分類和回歸分析。它通過找到最佳超平面將數據分類，並可以處理非線性問題。 SVM 的目標是最大化類別間的間隔，以提高分類準確性。
+
+//coding
 //FindCircle
 clc;clear all;
 pkg load image signal;
@@ -10,3 +36,565 @@ hold on;
 radiusRange = [10 100]
 [centers,radii,metric] = imfindcircles(coin_BW,radiusRange)
 viscircles(centers,radii);
+
+//H
+clear, format long;
+H=[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
+[height,width]=size(H); H1=H;        % DeleteL=zeros(3000, 2); H2=H;
+figure(1), imshow(H)
+rec=1; rec1=1; flag=0; 
+        while    ((rec ~= 0) || (rec1 ~= 0))
+            rec = 0;
+                for y = 2 : height - 1 
+                        for x = 2 : width - 1 
+                            P(1) = H1(y, x); 
+                            P(2) = H1(y - 1, x);
+                            P(3) = H1(y - 1, x + 1);
+                            P(4) = H1(y, x + 1);
+                            P(5) = H1(y + 1, x + 1);
+                            P(6) = H1(y + 1, x);
+                            P(7) = H1(y + 1, x - 1);
+                            P(8) = H1(y, x - 1);
+                            P(9) = H1(y - 1, x - 1);    % P(1) = P(9)
+                            S = 0;
+                            N = P(2) + P(3) + P(4) + P(5) + P(6) + P(7) + P(8)+ P(9) ;
+                            for k = 1:8
+                                if ((P(k) == 0) && (P(k+1) == 1)) 
+                                    S = S + 1;
+                                end
+                            end 
+                            if ((P(9) == 0) && (P(2) == 1)) 
+                                    S = S + 1;
+                            end 
+                            if ((P(1) == 1) && (N >= 2) && (N <= 6) && (S == 1) && (flag == 1) && ((P(2) == 0) || (P(4) == 0) || (P(6) == 0)) && ((P(4) == 0) || (P(6) == 0) || (P(8) == 0))) 
+                                rec = rec + 1; DeleteL(rec, 1) = x; DeleteL(rec, 2) = y;
+                            elseif ((P(1) == 1) && (N >= 2) && (N <= 6) && (S == 1) && (flag == 0) && ((P(2)==0) || (P(4) == 0) || (P(8)==0)) && ((P(2)==0) || (P(6)==0) || (P(8)==0))) 
+                                rec = rec + 1; DeleteL(rec, 1) = x; DeleteL(rec, 2) = y;
+                            end 
+                        end 
+                end
+                if (rec > 0) 
+                        for k = 1 : rec 
+                                H1(DeleteL(k, 2), DeleteL(k, 1)) = 0; 
+                        end 
+                end
+                flag = 1 - flag;
+                figure(2), imshow(H1)
+% pause
+                rec1 = rec;
+        end 
+                  imwrite(H1,'H_Thin.bmp');
+        for theta=1 : 181
+            for radi_index=1:round(2*(height^2+width^2)^0.5+1)
+                 A(theta,radi_index)= 0;
+            end
+        end                
+                for y = 1 : height
+                        for x = 1 : wid
+th 
+                                if(H1(y,x)>0)
+                                        for theta=1 : 181
+                                                t_r=(theta-91)*pi/180;
+radi=x*cos(t_r)+y*sin(t_r);
+radi_index=round(radi+(height^2+width^2)^0.5+1);
+A(theta,radi_index)= A(theta,radi_index)+1;
+                                        end
+                                end 
+                        end 
+                end
+                tmpA=0; x2=0;x3=0;y2=0;y3=0;
+      for theta=1 : 181
+for radi_index=1:round(2*(height^2+width^2)^0.5+1)
+         if (A(theta,radi_index)>=tmpA)
+              x3=x2; y3=y2;
+              x2=x;  y2=y;
+              y=theta;
+              x=radi_index;
+              tmpA=A(theta,radi_index);
+          end 
+end
+end 
+% x, y, x2, y2, x3, y3
+theta=y-91;
+radi=x-90.5;
+
+//8dot
+clc; clear all;
+n=8;% 8個點
+thred=4; %門檻=4
+P=[2,4;2,8;4,3;4,6;5,5;7,3;10,0;10,5];
+x=P(:,1);
+y=P(:,2);
+figure(1);
+subplot(1,2,1);plot(x,y,'o');title('原始的點')
+
+theta=pi/4;% 假設theta=45°
+s=[];
+
+for i = 1:1:n
+    r(i,1)=round(x(i)*cos(theta)+y(i)*sin(theta));
+    s(i,1)=r(i,1);
+s(i,2)=0;
+end
+
+for i=1:1:n
+    for j=1:1:n
+        if s(j,1)==s(i,1)
+            s(j,2)=s(j,2)+1;
+        end
+    end
+end
+
+disM=max(s(:,2));
+X2=[];
+Y2=[];
+c=1;
+for i=1:1:n
+    if s(i,2)==disM
+        X2(c)=x(i);
+        Y2(c)=y(i);
+        c=c+1;
+    end
+end
+
+subplot(1,2,2);
+plot(X2,Y2,'*');
+hold on
+line(X2,Y2);
+title('直線');
+
+//KAapur
+function imagBW = kapur(imag)
+imag = imag(:, :, 1); % gray image
+counts = imhist(imag);  % counts are the histogram
+GradeI = 256;    % the resolusion of the intensity. i.e. 256 for uint8.
+% MIN = 1e-7;
+prob = counts ./ sum(counts);  % Probability distribution
+psai = zeros(GradeI, 1);
+prob_t = 0;
+entropy_t = 0;
+ind = find(prob);
+entropy_L = sum( prob(ind) .* log(prob(ind)) ) * (-1);
+for i = 0 : GradeI-1
+    prob_t = prob_t + prob(i+1);
+
+    if prob(i+1) > 0 && prob_t < 1
+        entropy_t = entropy_t - prob(i+1) * log(prob(i+1));
+        psai(i+1) = log(prob_t * (1-prob_t)) + entropy_t / prob_t + ...
+            (entropy_L-entropy_t) / (1-prob_t);
+    elseif (prob(i+1) == 0 && i > 0)
+        psai(i+1) = psai(i);
+    end
+end
+[maxPsai, ind] = max(psai);
+th = (ind - 1) / (GradeI -1);
+imagBW = im2bw(imag, th);
+th
+
+//Otsu
+pkg load signal image;
+clear all; clc;
+
+Lena_gray = rgb2gray(imread('lena_std.tif'));
+
+% 計算灰階影像的histogram
+[counts, x] = imhist(Lena_gray);
+
+% 在第一個子圖中顯示histogram
+subplot(2,2,1); bar(counts), title('Histogram');
+
+% 計算 Otsu 門檻值
+for i = 1:1:max(x)
+    na(i) = sum(counts(1:i));
+    nb(i) = sum(counts(i:max(x)));
+    wa(i) = na(i) / sum(counts);
+    wb(i) = nb(i) / sum(counts);
+    ua(i) = sum(counts(1:i) .* x(1:i)) / na(i);
+    ub(i) = sum(counts(i:max(x)) .* x(i:max(x))) / nb(i);
+    g(i) = wa(i) * wb(i) * (ua(i) - ub(i))^2;
+end
+
+% 找出最大的 g 值及其對應的門檻值
+[gmax, Tn] = max(g);
+
+binaryImage = Lena_gray > Tn;
+
+subplot(2,2,3); imshow(Lena_gray), title('Lena gray');
+
+subplot(2,2,4); imshow(binaryImage), title('Lena Otsu');
+
+disp(['計算得到的門檻為：', num2str(Tn)]);
+
+//Moment
+function [m0, m1, m2, m3, mean_gray, percentage_gray] = compute_moments(image_path)
+    % 讀取圖像
+    image = imread(image_path);
+
+    % 計算圖像的 m0 到 m3、代表灰度和占比
+    [m, n] = size(image);
+    mn = numel(image);
+    B = reshape(image, [], 1);
+    max_gray = max(max(image));
+    min_gray = min(min(image));
+    num = zeros(max_gray + 1, 1);
+    for i = 1:mn
+        num(B(i) + 1) = num(B(i) + 1) + 1;
+    end
+
+    m0 = 1;
+    m1 = mean(mean(image));
+    m2 = 0;
+    m3 = 0;
+    for i = 1:max_gray - min_gray + 1
+        m2 = m2 + num(i) * (i - 1)^2;
+        m3 = m3 + num(i) * (i - 1)^3;
+    end
+    m2 = single(m2) / mn;
+    m3 = single(m3) / mn;
+
+    cd = det(single([m0 m1; m1 m2]));
+    c0 = cd^-1 * det(single([-m2 m1; -m3 m2]));
+    c1 = cd^-1 * det(single([m0 -m2; m1 -m3]));
+    z0 = .5 * (-c1 + sqrt(c1^2 - 4 * c0)); % norm = sqrt(�곡^2+�곡^2)
+    z00 = norm(z0);
+    z1 = .5 * (-c1 - sqrt(c1^2 - 4 * c0));
+    pd = det(single([1 1; z0 z1]));
+    p0 = (1 / pd) * det(single([1 1; m1 z1]));
+
+    % 計算代表灰度和占比
+    mean_gray = (z0 + z1) / 2;
+    percentage_gray = p0 * 100;
+
+    % 顯示計算的結果
+    disp('m0:');
+    disp(m0);
+    disp('m1:');
+    disp(m1);
+    disp('m2:');
+    disp(m2);
+    disp('m3:');
+    disp(m3);
+    disp('Mean Gray:');
+    disp(mean_gray);
+    disp('Percentage Gray:');
+    disp(percentage_gray);
+end
+
+% 呼叫 compute_moments 函數，傳入圖像路徑
+[m0, m1, m2, m3, mean_gray, percentage_gray] = compute_moments('lena_std.tif');
+
+//chaincode
+function min_diff_chain_code = compute_min_diff_chain_code(image)
+    % 計算圖像尺寸
+    [rows, cols] = size(image);
+    
+    % 定義八個方向的相對坐標
+    directions = [-1, -1; -1, 0; -1, 1; 0, -1; 0, 1; 1, -1; 1, 0; 1, 1];
+    
+    % 定義鏈碼
+    chain_codes = [3, 2, 1; 4, 0, 0; 5, 6, 7];
+    
+    % 初始化最小差分鏈碼矩陣
+    min_diff_chain_code = zeros(rows, cols);
+    
+    % 迭代每個像素
+    for i = 2:rows-1
+        for j = 2:cols-1
+            % 當前像素的值
+            current_pixel = image(i, j);
+            
+            % 初始化最小差分鏈碼和最小差分值
+            min_diff = Inf;
+            min_diff_chain = -1;
+            
+            % 迭代八個方向
+            for k = 1:8
+                % 獲取相鄰像素的坐標
+                neighbor_row = i + directions(k, 1);
+                neighbor_col = j + directions(k, 2);
+                
+                % 獲取相鄰像素的值
+                neighbor_pixel = image(neighbor_row, neighbor_col);
+                
+                % 計算差分值
+                diff = abs(current_pixel - neighbor_pixel);
+                
+                % 更新最小差分鏈碼和最小差分值
+                if diff < min_diff
+                    min_diff = diff;
+                    min_diff_chain = chain_codes(directions(k, 1) + 2, directions(k, 2) + 2);
+                end
+            end
+            
+            % 將最小差分鏈碼存儲到結果矩陣中
+            min_diff_chain_code(i, j) = min_diff_chain;
+        end
+    end
+end
+
+% 讀取圖像
+image = imread('lena_std.tif');
+
+% 轉換圖像為灰度圖像
+image_gray = rgb2gray(image);
+
+% 計算最小差分鏈碼
+min_diff_chain_code = compute_min_diff_chain_code(image_gray);
+
+% 顯示結果
+imshow(min_diff_chain_code, []);
+
+//Zhang Suen Thining algorithm
+function thinned_image = zhang_suen_thinning(image)
+    % 將圖像轉換為二值圖像
+    image = im2bw(image);
+    % 初始化變量
+    [rows, cols] = size(image);
+    thinned_image = image;
+    change = true;
+
+    while change
+        change = false;
+        % 步驟一
+        markers = zeros(rows, cols);
+        for i = 2:rows-1
+            for j = 2:cols-1
+                P1 = thinned_image(i, j);
+                if P1 == 1
+                    neighbors = thinned_image(i-1:i+1, j-1:j+1);
+                    P = neighbors(:);
+                    A = sum(P([2 3 6 9 8 7 4 1]) - P([1 2 3 6 9 8 7 4]) == 1);
+                    B = sum(P) - P1;
+                    if B >= 2 && B <= 6 && A == 1 && ...
+                       (P(2) * P(4) * P(6) == 0) && (P(4) * P(6) * P(8) == 0)
+                        markers(i, j) = 1;
+                    end
+                end
+            end
+        end
+        thinned_image(markers == 1) = 0;
+        % 步驟二
+        markers = zeros(rows, cols);
+        for i = 2:rows-1
+            for j = 2:cols-1
+                P1 = thinned_image(i, j);
+                if P1 == 1
+                    neighbors = thinned_image(i-1:i+1, j-1:j+1);
+                    P = neighbors(:);
+                    A = sum(P([2 3 6 9 8 7 4 1]) - P([1 2 3 6 9 8 7 4]) == 1);
+                    B = sum(P) - P1;
+                    if B >= 2 && B <= 6 && A == 1 && ...
+                       (P(2) * P(4) * P(8) == 0) && (P(2) * P(6) * P(8) == 0)
+                        markers(i, j) = 1;
+                    end
+                end
+            end
+        end
+        thinned_image(markers == 1) = 0;
+        % 檢查是否有變化
+        change = any(markers(:));
+    end
+end
+
+% 測試程式
+image = imread('lena_std.tif');
+image_gray = rgb2gray(image);
+thinned_image = zhang_suen_thinning(image_gray);
+
+% 顯示結果
+imshow(thinned_image);
+
+//Central Moment
+pkg load image;
+
+function [x_c, y_c] = centroid(image)
+    [rows, cols] = size(image);
+    M00 = sum(image(:));
+    M10 = 0;
+    M01 = 0;
+    for i = 1:rows
+        for j = 1:cols
+            M10 += j * image(i, j);
+            M01 += i * image(i, j);
+        end
+    end
+    x_c = M10 / M00;
+    y_c = M01 / M00;
+end
+
+function mu = central_moment(image, p, q, x_c, y_c)
+    [rows, cols] = size(image);
+    mu = 0;
+    for i = 1:rows
+        for j = 1:cols
+            mu += ((j - x_c)^p) * ((i - y_c)^q) * image(i, j);
+        end
+    end
+end
+
+% 讀取並轉換為灰度圖像
+image = imread('lena_std.tif');
+gray_image = rgb2gray(image);
+binary_image = im2bw(gray_image);
+
+% 計算質心
+[x_c, y_c] = centroid(binary_image);
+
+% 計算中央矩
+mu_00 = central_moment(binary_image, 0, 0, x_c, y_c);
+mu_11 = central_moment(binary_image, 1, 1, x_c, y_c);
+mu_20 = central_moment(binary_image, 2, 0, x_c, y_c);
+mu_02 = central_moment(binary_image, 0, 2, x_c, y_c);
+
+% 顯示結果
+fprintf('Centroid: (%.2f, %.2f)\n', x_c, y_c);
+fprintf('Central Moment mu_00: %.2f\n', mu_00);
+fprintf('Central Moment mu_11: %.2f\n', mu_11);
+fprintf('Central Moment mu_20: %.2f\n', mu_20);
+fprintf('Central Moment mu_02: %.2f\n', mu_02);
+
+% 顯示二值圖像和質心
+imshow(binary_image);
+hold on;
+plot(x_c, y_c, 'r+', 'MarkerSize', 10, 'LineWidth', 2);
+hold off;
+
+//Co-occurrence Matrix
+pkg load image; % Load image package in Octave
+
+% Function to compute co-occurrence matrix for given direction
+function coMat = co_occurrence_matrix(matrix, direction)
+    [rows, cols] = size(matrix);
+    max_val = max(matrix(:));
+    coMat = zeros(max_val + 1);
+    
+    if direction == 0 % Horizontal direction
+        for i = 1:rows
+            for j = 1:cols-1
+                current_pixel = matrix(i, j);
+                neighbor_pixel = matrix(i, j + 1);
+                coMat(current_pixel + 1, neighbor_pixel + 1) += 1;
+            end
+        end
+    elseif direction == 90 % Vertical direction
+        for i = 1:rows-1
+            for j = 1:cols
+                current_pixel = matrix(i, j);
+                neighbor_pixel = matrix(i + 1, j);
+                coMat(current_pixel + 1, neighbor_pixel + 1) += 1;
+            end
+        end
+    else
+        error('Invalid direction. Use 0 for horizontal and 90 for vertical.');
+    end
+end
+
+% Example matrix
+A = int16([10 8 10 9 20 21 32 30 40 41 41 40;
+           12 10 11 10 19 20 30 28 38 40 40 39;
+           10 9 10 8 20 21 30 29 42 40 40 39;
+           11 10 9 11 19 21 31 30 40 42 38 40]);
+
+% Calculate co-occurrence matrices
+coMat_0 = co_occurrence_matrix(A, 0);
+coMat_90 = co_occurrence_matrix(A, 90);
+
+% Display the results
+disp('Co-occurrence Matrix for θ = 0°:');
+disp(coMat_0);
+disp('Co-occurrence Matrix for θ = 90°:');
+disp(coMat_90);
+
+//findline_new
+pkg load image; % Load image package in Octave
+
+% 读取图像并转换为灰度图
+img = imread('your_image.jpg');
+gray_img = rgb2gray(img);
+
+% 使用 Canny 算法进行边缘检测
+edges = edge(gray_img, 'Canny');
+
+% 使用霍夫变换检测直线
+[H, theta, rho] = hough(edges);
+
+% 查找霍夫变换矩阵中的峰值
+peaks = houghpeaks(H, 10); % 查找 10 个峰值
+
+% 提取峰值对应的直线
+lines = houghlines(edges, theta, rho, peaks);
+
+% 在原图上绘制检测到的直线
+imshow(img);
+hold on;
+for k = 1:length(lines)
+    xy = [lines(k).point1; lines(k).point2];
+    plot(xy(:,1), xy(:,2), 'LineWidth', 2, 'Color', 'green');
+end
+hold off;
+
+//findline_original
+pkg load image signal;
+im=im2bw(imread("1.png"));
+
+[H,theta,rho]=hough(im);
+imshow(imadjust(rescale(H)),'XData',theta,'YData',rho,'Initialmagnification','fit');
+axis on,axis normal,
+
+P = houghpeaks(H,5);
+lines = houghlines(im,theta,rho,P);
+
+figure,imshow(im),hold on
+for k = 1:length(lines)
+xy = [lines(k).point1; lines(k).point2];
+plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','red');
+end

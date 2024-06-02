@@ -1,0 +1,12 @@
+//FindCircle
+clc;clear all;
+pkg load image signal;
+coin = imread('2.png');
+coin_BW = im2bw(coin);
+coin_BW = imcomplement(coin_BW);
+imshow(coin_BW)
+hold on;
+
+radiusRange = [10 100]
+[centers,radii,metric] = imfindcircles(coin_BW,radiusRange)
+viscircles(centers,radii);
